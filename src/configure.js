@@ -334,9 +334,13 @@ export class Configure {
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    let data = JSON.parse(this.responseText);
-                    action(data);
-                    resolve(data);
+                    try {
+                        let data = JSON.parse(this.responseText);
+                        action(data);
+                        resolve(data);
+                    } catch( ex ) {
+                        reject( ex );
+                    }
                 }
             };
 

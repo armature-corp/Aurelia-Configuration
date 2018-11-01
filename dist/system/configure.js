@@ -226,9 +226,13 @@ System.register(['aurelia-path', 'deep-extend'], function (_export, _context) {
 
                         xhr.onreadystatechange = function () {
                             if (xhr.readyState == 4 && xhr.status == 200) {
-                                var data = JSON.parse(this.responseText);
-                                action(data);
-                                resolve(data);
+                                try {
+                                    var data = JSON.parse(this.responseText);
+                                    action(data);
+                                    resolve(data);
+                                } catch (ex) {
+                                    reject(ex);
+                                }
                             }
                         };
 

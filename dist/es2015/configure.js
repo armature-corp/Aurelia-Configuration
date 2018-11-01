@@ -175,9 +175,13 @@ export let Configure = class Configure {
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    let data = JSON.parse(this.responseText);
-                    action(data);
-                    resolve(data);
+                    try {
+                        let data = JSON.parse(this.responseText);
+                        action(data);
+                        resolve(data);
+                    } catch (ex) {
+                        reject(ex);
+                    }
                 }
             };
 
@@ -188,7 +192,7 @@ export let Configure = class Configure {
             };
 
             xhr.onerror = function () {
-                reject(`Configuration file could not be found or loaded: ${ pathClosure }`);
+                reject(`Configuration file could not be found or loaded: ${pathClosure}`);
             };
 
             xhr.send(null);
